@@ -158,7 +158,7 @@ def test_price_parses_alpha_vantage_shape_and_survives_rate_limit(monkeypatch):
     monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Global Quote": {"05. price": "123.4500", "07. latest trading day": "2024-02-02"}})
     assert prices.latest_price("ZZZ") == {"value": 123.45, "as_of": "2024-02-02"}
     monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Information": "rate limit reached"})
-    with pytest.raises(http.Unavailable, match="rate limit reached"):     # the provider's reason is passed on
+    with pytest.raises(http.Unavailable, match="reached its limit"):     # a short plain line, not the provider's text
         prices.latest_price("ZZZ")
     monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Global Quote": {}})   # unknown symbol
     assert prices.latest_price("ZZZ") is None
@@ -270,4 +270,4 @@ def test_provider_message_never_leaks_the_api_key(monkeypatch):
         "Information": "We have detected your API key as SECRETKEY123 and our standard API rate limit is 25 requests per day."})
     with pytest.raises(http.Unavailable) as err:
         prices.latest_price("ZZZ")
-    assert "SECRETKEY123" not in str(err.value) and "rate limit" in str(err.value)
+    assert "SECRETKEY123" not in str(err.value) and "premium" not in str(err.value).lower()
