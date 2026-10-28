@@ -7,10 +7,12 @@ from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+import json as _json
+
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
-from . import __version__, service
+from . import __version__, service, snapshots
 from .providers.http import DataError, NotConfigured, NotFound
 from .schemas import (Capabilities, CompanyResponse, DCFRequest, RatesResponse, DCFResponse, Meta, PlanRequest, PlanResponse, SampleResponse,
                       WaccRequest, WaccResponse, XrayRequest, XrayResponse)
@@ -86,6 +88,28 @@ def company(ticker: str):
 @app.get("/api/rates", response_model=RatesResponse)
 def rates():
     return service.rates()
+
+
+def _download(data, filename: str) -> Response:
+    body = _json.dumps(data, indent=2, sort_keys=True) + "\n"
+    return Response(body, media_type="application/json",
+                    headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+@app.get("/api/snapshot/{ticker}", include_in_schema=False)
+def snapshot_company(ticker: str):
+    """The saved-copy file for one company, built from live data. Save it into data/snapshots/companies/."""
+    snap = snapshots.build_company(ticker)
+    return _download(snap, f"{snap['ticker']}.json")
+
+
+@app.get("/api/snapshot-rates", include_in_schema=False)
+def snapshot_rates():
+    """The saved-copy file for the Treasury yield. Save it as data/snapshots/rates.json."""
+    rates = snapshots.build_rates()
+    if rates is None:
+        raise ValueError("No Treasury yield reading is available (is FRED_API_KEY set?).")
+    return _download(rates, "rates.json")
 
 
 @app.post("/api/wacc", response_model=WaccResponse)
