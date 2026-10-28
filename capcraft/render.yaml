@@ -1,0 +1,15 @@
+# Render blueprint: New > Blueprint > pick this repo. Free plan works; it sleeps when idle.
+# The app runs with no keys. To turn on live lookups, add the values in the Render dashboard.
+services:
+  - type: web
+    name: capcraft
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: CAPCRAFT_SEC_USER_AGENT
+        sync: false
+      - key: ALPHAVANTAGE_API_KEY
+        sync: false
+      - key: FRED_API_KEY
+        sync: false

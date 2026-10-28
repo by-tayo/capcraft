@@ -1,0 +1,2205 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "CapCraft API",
+  "description": "For learning only. Not financial advice. Results come from simple models and from whatever inputs you supply; they are not predictions.",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/meta": {
+   "get": {
+    "summary": "Meta",
+    "operationId": "meta_api_meta_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Meta"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/plan": {
+   "post": {
+    "summary": "Plan",
+    "operationId": "plan_api_plan_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PlanRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PlanResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/xray/sample": {
+   "get": {
+    "summary": "Xray Sample",
+    "operationId": "xray_sample_api_xray_sample_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SampleResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/xray": {
+   "post": {
+    "summary": "Xray",
+    "operationId": "xray_api_xray_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/XrayRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/XrayResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/dcf": {
+   "post": {
+    "summary": "Dcf Endpoint",
+    "operationId": "dcf_endpoint_api_dcf_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DCFRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DCFResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/capabilities": {
+   "get": {
+    "summary": "Capabilities",
+    "operationId": "capabilities_api_capabilities_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Capabilities"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/company/{ticker}": {
+   "get": {
+    "summary": "Company",
+    "operationId": "company_api_company__ticker__get",
+    "parameters": [
+     {
+      "name": "ticker",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Ticker"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CompanyResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/rates": {
+   "get": {
+    "summary": "Rates",
+    "operationId": "rates_api_rates_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RatesResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/wacc": {
+   "post": {
+    "summary": "Wacc",
+    "operationId": "wacc_api_wacc_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/WaccRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/WaccResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AssetRow": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "weight": {
+      "type": "number",
+      "title": "Weight"
+     },
+     "annual_return": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Annual Return",
+      "description": "Compound growth per year (CAGR)"
+     },
+     "annual_risk": {
+      "type": "number",
+      "title": "Annual Risk"
+     },
+     "sharpe": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sharpe"
+     },
+     "max_drawdown": {
+      "type": "number",
+      "title": "Max Drawdown"
+     },
+     "beta": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Beta"
+     },
+     "own_risk_share": {
+      "type": "number",
+      "title": "Own Risk Share",
+      "description": "Share of the portfolio's risk this holding adds"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "weight",
+     "annual_return",
+     "annual_risk",
+     "sharpe",
+     "max_drawdown",
+     "beta",
+     "own_risk_share"
+    ],
+    "title": "AssetRow"
+   },
+   "Capabilities": {
+    "properties": {
+     "company": {
+      "type": "boolean",
+      "title": "Company",
+      "description": "Real companies can be loaded, live or from saved snapshots"
+     },
+     "live_company": {
+      "type": "boolean",
+      "title": "Live Company",
+      "description": "SEC filings loader is configured for live lookups"
+     },
+     "saved_companies": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Saved Companies",
+      "description": "Tickers available from saved snapshots"
+     },
+     "price": {
+      "type": "boolean",
+      "title": "Price",
+      "description": "Share price lookup is configured"
+     },
+     "rates": {
+      "type": "boolean",
+      "title": "Rates",
+      "description": "Treasury yield lookup is configured"
+     }
+    },
+    "type": "object",
+    "required": [
+     "company",
+     "live_company",
+     "saved_companies",
+     "price",
+     "rates"
+    ],
+    "title": "Capabilities"
+   },
+   "CompanyAssumptions": {
+    "properties": {
+     "base_revenue": {
+      "type": "number",
+      "title": "Base Revenue",
+      "description": "$ millions"
+     },
+     "revenue_growth": {
+      "type": "number",
+      "title": "Revenue Growth"
+     },
+     "ebit_margin": {
+      "type": "number",
+      "title": "Ebit Margin"
+     },
+     "tax_rate": {
+      "type": "number",
+      "title": "Tax Rate"
+     },
+     "da_pct": {
+      "type": "number",
+      "title": "Da Pct"
+     },
+     "capex_pct": {
+      "type": "number",
+      "title": "Capex Pct"
+     },
+     "nwc_pct": {
+      "type": "number",
+      "title": "Nwc Pct"
+     },
+     "net_debt": {
+      "type": "number",
+      "title": "Net Debt",
+      "description": "$ millions"
+     },
+     "shares_outstanding": {
+      "type": "number",
+      "title": "Shares Outstanding",
+      "description": "millions"
+     }
+    },
+    "type": "object",
+    "required": [
+     "base_revenue",
+     "revenue_growth",
+     "ebit_margin",
+     "tax_rate",
+     "da_pct",
+     "capex_pct",
+     "nwc_pct",
+     "net_debt",
+     "shares_outstanding"
+    ],
+    "title": "CompanyAssumptions"
+   },
+   "CompanyResponse": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "title": "Ticker"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "cik": {
+      "type": "integer",
+      "title": "Cik"
+     },
+     "fiscal_year_end": {
+      "type": "string",
+      "title": "Fiscal Year End"
+     },
+     "assumptions": {
+      "$ref": "#/components/schemas/CompanyAssumptions"
+     },
+     "price": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/PriceQuote"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "provenance": {
+      "items": {
+       "$ref": "#/components/schemas/Provenance"
+      },
+      "type": "array",
+      "title": "Provenance"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings"
+     },
+     "source": {
+      "type": "string",
+      "enum": [
+       "live",
+       "saved"
+      ],
+      "title": "Source"
+     },
+     "saved_on": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Saved On",
+      "description": "Day a saved snapshot was taken"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ticker",
+     "name",
+     "cik",
+     "fiscal_year_end",
+     "assumptions",
+     "price",
+     "provenance",
+     "warnings",
+     "source"
+    ],
+    "title": "CompanyResponse"
+   },
+   "Correlation": {
+    "properties": {
+     "names": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Names"
+     },
+     "matrix": {
+      "items": {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Matrix"
+     }
+    },
+    "type": "object",
+    "required": [
+     "names",
+     "matrix"
+    ],
+    "title": "Correlation"
+   },
+   "DCFRequest": {
+    "properties": {
+     "base_revenue": {
+      "type": "number",
+      "maximum": 1000000000000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Base Revenue",
+      "default": 1000
+     },
+     "revenue_growth": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       }
+      ],
+      "title": "Revenue Growth",
+      "description": "One rate for every year, or one per forecast year",
+      "default": 0.08
+     },
+     "years": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 15.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Years",
+      "default": 5
+     },
+     "ebit_margin": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       }
+      ],
+      "title": "Ebit Margin",
+      "default": 0.18
+     },
+     "tax_rate": {
+      "type": "number",
+      "exclusiveMaximum": 1.0,
+      "minimum": 0.0,
+      "title": "Tax Rate",
+      "default": 0.25
+     },
+     "da_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       }
+      ],
+      "title": "Da Pct",
+      "default": 0.04
+     },
+     "capex_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       }
+      ],
+      "title": "Capex Pct",
+      "default": 0.05
+     },
+     "nwc_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       }
+      ],
+      "title": "Nwc Pct",
+      "default": 0.1
+     },
+     "discount_rate": {
+      "type": "number",
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Discount Rate",
+      "default": 0.09
+     },
+     "terminal_method": {
+      "type": "string",
+      "enum": [
+       "gordon",
+       "exit_multiple"
+      ],
+      "title": "Terminal Method",
+      "default": "gordon"
+     },
+     "terminal_growth": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": -0.1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Terminal Growth",
+      "default": 0.025
+     },
+     "exit_multiple": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 200.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exit Multiple"
+     },
+     "net_debt": {
+      "type": "number",
+      "maximum": 1000000000000.0,
+      "minimum": -1000000000000.0,
+      "title": "Net Debt",
+      "default": 0.0
+     },
+     "shares_outstanding": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1000000000000.0,
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Shares Outstanding"
+     },
+     "mid_year": {
+      "type": "boolean",
+      "title": "Mid Year",
+      "default": false
+     },
+     "market_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1000000000.0,
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Market Price",
+      "description": "Per-share market price, for the reverse DCF"
+     }
+    },
+    "type": "object",
+    "title": "DCFRequest"
+   },
+   "DCFResponse": {
+    "properties": {
+     "metric": {
+      "type": "string",
+      "title": "Metric"
+     },
+     "projection": {
+      "items": {
+       "$ref": "#/components/schemas/ProjectionRow"
+      },
+      "type": "array",
+      "title": "Projection"
+     },
+     "valuation": {
+      "$ref": "#/components/schemas/Valuation"
+     },
+     "sensitivity": {
+      "$ref": "#/components/schemas/Grid"
+     },
+     "tornado": {
+      "items": {
+       "$ref": "#/components/schemas/TornadoOut"
+      },
+      "type": "array",
+      "title": "Tornado"
+     },
+     "reverse": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ReverseDCF"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "metric",
+     "projection",
+     "valuation",
+     "sensitivity",
+     "tornado",
+     "reverse"
+    ],
+    "title": "DCFResponse"
+   },
+   "FrontierMix": {
+    "properties": {
+     "weights": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Weights"
+     },
+     "annual_return": {
+      "type": "number",
+      "title": "Annual Return"
+     },
+     "annual_risk": {
+      "type": "number",
+      "title": "Annual Risk"
+     },
+     "sharpe": {
+      "type": "number",
+      "title": "Sharpe"
+     }
+    },
+    "type": "object",
+    "required": [
+     "weights",
+     "annual_return",
+     "annual_risk",
+     "sharpe"
+    ],
+    "title": "FrontierMix"
+   },
+   "FrontierOut": {
+    "properties": {
+     "points": {
+      "items": {
+       "$ref": "#/components/schemas/FrontierPoint"
+      },
+      "type": "array",
+      "title": "Points"
+     },
+     "edge": {
+      "items": {
+       "$ref": "#/components/schemas/FrontierPoint"
+      },
+      "type": "array",
+      "title": "Edge"
+     },
+     "assets": {
+      "items": {
+       "$ref": "#/components/schemas/FrontierPoint"
+      },
+      "type": "array",
+      "title": "Assets"
+     },
+     "current": {
+      "$ref": "#/components/schemas/FrontierPoint"
+     },
+     "min_variance": {
+      "$ref": "#/components/schemas/FrontierMix"
+     },
+     "max_sharpe": {
+      "$ref": "#/components/schemas/FrontierMix"
+     },
+     "n_sampled": {
+      "type": "integer",
+      "title": "N Sampled"
+     }
+    },
+    "type": "object",
+    "required": [
+     "points",
+     "edge",
+     "assets",
+     "current",
+     "min_variance",
+     "max_sharpe",
+     "n_sampled"
+    ],
+    "title": "FrontierOut"
+   },
+   "FrontierPoint": {
+    "properties": {
+     "annual_risk": {
+      "type": "number",
+      "title": "Annual Risk"
+     },
+     "annual_return": {
+      "type": "number",
+      "title": "Annual Return"
+     },
+     "sharpe": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sharpe"
+     },
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     }
+    },
+    "type": "object",
+    "required": [
+     "annual_risk",
+     "annual_return"
+    ],
+    "title": "FrontierPoint"
+   },
+   "Grid": {
+    "properties": {
+     "metric": {
+      "type": "string",
+      "title": "Metric"
+     },
+     "x_label": {
+      "type": "string",
+      "title": "X Label"
+     },
+     "x_values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "X Values"
+     },
+     "y_label": {
+      "type": "string",
+      "title": "Y Label"
+     },
+     "y_values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Y Values"
+     },
+     "grid": {
+      "items": {
+       "items": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Grid"
+     },
+     "base_output": {
+      "type": "number",
+      "title": "Base Output"
+     }
+    },
+    "type": "object",
+    "required": [
+     "metric",
+     "x_label",
+     "x_values",
+     "y_label",
+     "y_values",
+     "grid",
+     "base_output"
+    ],
+    "title": "Grid"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "Histogram": {
+    "properties": {
+     "edges": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Edges"
+     },
+     "counts": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "title": "Counts"
+     },
+     "overflow": {
+      "type": "integer",
+      "title": "Overflow",
+      "description": "Futures above the last bin edge"
+     }
+    },
+    "type": "object",
+    "required": [
+     "edges",
+     "counts",
+     "overflow"
+    ],
+    "title": "Histogram"
+   },
+   "Meta": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "version": {
+      "type": "string",
+      "title": "Version"
+     },
+     "disclaimer": {
+      "type": "string",
+      "title": "Disclaimer"
+     },
+     "limits": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "Limits"
+     },
+     "assumptions": {
+      "additionalProperties": {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "type": "object",
+      "title": "Assumptions"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "version",
+     "disclaimer",
+     "limits",
+     "assumptions"
+    ],
+    "title": "Meta"
+   },
+   "Metrics": {
+    "properties": {
+     "n_periods": {
+      "type": "integer",
+      "title": "N Periods"
+     },
+     "average_periodic_return": {
+      "type": "number",
+      "title": "Average Periodic Return"
+     },
+     "periodic_risk": {
+      "type": "number",
+      "title": "Periodic Risk"
+     },
+     "annualized_return": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Annualized Return"
+     },
+     "annualized_return_arithmetic": {
+      "type": "number",
+      "title": "Annualized Return Arithmetic"
+     },
+     "annualized_volatility": {
+      "type": "number",
+      "title": "Annualized Volatility"
+     },
+     "sharpe_ratio": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sharpe Ratio"
+     },
+     "sortino_ratio": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sortino Ratio"
+     },
+     "calmar_ratio": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Calmar Ratio"
+     },
+     "max_drawdown": {
+      "type": "number",
+      "title": "Max Drawdown"
+     },
+     "max_drawdown_peak_index": {
+      "type": "integer",
+      "title": "Max Drawdown Peak Index"
+     },
+     "max_drawdown_trough_index": {
+      "type": "integer",
+      "title": "Max Drawdown Trough Index"
+     },
+     "max_drawdown_recovery_index": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Max Drawdown Recovery Index"
+     },
+     "confidence": {
+      "type": "number",
+      "title": "Confidence"
+     },
+     "historical_var": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Historical Var"
+     },
+     "historical_cvar": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Historical Cvar"
+     },
+     "parametric_var": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parametric Var"
+     },
+     "beta_vs_benchmark": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Beta Vs Benchmark"
+     },
+     "jensens_alpha_per_year": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Jensens Alpha Per Year"
+     }
+    },
+    "type": "object",
+    "required": [
+     "n_periods",
+     "average_periodic_return",
+     "periodic_risk",
+     "annualized_return",
+     "annualized_return_arithmetic",
+     "annualized_volatility",
+     "sharpe_ratio",
+     "sortino_ratio",
+     "calmar_ratio",
+     "max_drawdown",
+     "max_drawdown_peak_index",
+     "max_drawdown_trough_index",
+     "max_drawdown_recovery_index",
+     "confidence",
+     "historical_var",
+     "historical_cvar",
+     "parametric_var"
+    ],
+    "title": "Metrics"
+   },
+   "Needed": {
+    "properties": {
+     "confidence": {
+      "type": "number",
+      "title": "Confidence"
+     },
+     "monthly": {
+      "type": "number",
+      "title": "Monthly"
+     }
+    },
+    "type": "object",
+    "required": [
+     "confidence",
+     "monthly"
+    ],
+    "title": "Needed"
+   },
+   "PlanRequest": {
+    "properties": {
+     "initial": {
+      "type": "number",
+      "maximum": 1000000000.0,
+      "minimum": 0.0,
+      "title": "Initial",
+      "description": "Dollars invested today",
+      "default": 10000
+     },
+     "monthly_contribution": {
+      "type": "number",
+      "maximum": 10000000.0,
+      "minimum": 0.0,
+      "title": "Monthly Contribution",
+      "description": "Dollars added at the end of each month",
+      "default": 500
+     },
+     "years": {
+      "type": "integer",
+      "maximum": 50.0,
+      "minimum": 1.0,
+      "title": "Years",
+      "default": 20
+     },
+     "expected_return": {
+      "type": "number",
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": -0.5,
+      "title": "Expected Return",
+      "description": "Average yearly return the plan assumes",
+      "default": 0.07
+     },
+     "volatility": {
+      "type": "number",
+      "maximum": 1.5,
+      "minimum": 0.0,
+      "title": "Volatility",
+      "description": "Yearly standard deviation of returns",
+      "default": 0.15
+     },
+     "goal": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 1000000000000.0,
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Goal",
+      "description": "Target dollar amount at the end"
+     },
+     "n_sims": {
+      "type": "integer",
+      "maximum": 10000.0,
+      "minimum": 100.0,
+      "title": "N Sims",
+      "default": 5000
+     },
+     "seed": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "exclusiveMaximum": 2147483648.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Seed",
+      "description": "Set to reproduce a result exactly"
+     }
+    },
+    "type": "object",
+    "title": "PlanRequest"
+   },
+   "PlanResponse": {
+    "properties": {
+     "seed": {
+      "type": "integer",
+      "title": "Seed"
+     },
+     "n_sims": {
+      "type": "integer",
+      "title": "N Sims"
+     },
+     "years": {
+      "type": "integer",
+      "title": "Years"
+     },
+     "invested": {
+      "type": "number",
+      "title": "Invested"
+     },
+     "goal": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Goal"
+     },
+     "straight_line_final": {
+      "type": "number",
+      "title": "Straight Line Final",
+      "description": "Where the plan ends if every year earns exactly the average"
+     },
+     "mean_final": {
+      "type": "number",
+      "title": "Mean Final"
+     },
+     "median_final": {
+      "type": "number",
+      "title": "Median Final"
+     },
+     "percentiles": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Percentiles"
+     },
+     "prob_loss": {
+      "type": "number",
+      "title": "Prob Loss",
+      "description": "Share of futures ending below the dollars put in"
+     },
+     "share_below_straight_line": {
+      "type": "number",
+      "title": "Share Below Straight Line"
+     },
+     "prob_goal": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Prob Goal"
+     },
+     "value_at_risk_95": {
+      "type": "number",
+      "title": "Value At Risk 95"
+     },
+     "conditional_value_at_risk_95": {
+      "type": "number",
+      "title": "Conditional Value At Risk 95"
+     },
+     "needed_monthly": {
+      "anyOf": [
+       {
+        "items": {
+         "$ref": "#/components/schemas/Needed"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Needed Monthly"
+     },
+     "time": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Time"
+     },
+     "straight_line": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Straight Line"
+     },
+     "bands": {
+      "additionalProperties": {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      "type": "object",
+      "title": "Bands"
+     },
+     "sample_paths": {
+      "items": {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Sample Paths"
+     },
+     "histogram": {
+      "$ref": "#/components/schemas/Histogram"
+     }
+    },
+    "type": "object",
+    "required": [
+     "seed",
+     "n_sims",
+     "years",
+     "invested",
+     "goal",
+     "straight_line_final",
+     "mean_final",
+     "median_final",
+     "percentiles",
+     "prob_loss",
+     "share_below_straight_line",
+     "prob_goal",
+     "value_at_risk_95",
+     "conditional_value_at_risk_95",
+     "needed_monthly",
+     "time",
+     "straight_line",
+     "bands",
+     "sample_paths",
+     "histogram"
+    ],
+    "title": "PlanResponse"
+   },
+   "PriceQuote": {
+    "properties": {
+     "value": {
+      "type": "number",
+      "title": "Value"
+     },
+     "as_of": {
+      "type": "string",
+      "title": "As Of"
+     }
+    },
+    "type": "object",
+    "required": [
+     "value",
+     "as_of"
+    ],
+    "title": "PriceQuote"
+   },
+   "ProjectionRow": {
+    "properties": {
+     "year": {
+      "type": "integer",
+      "title": "Year"
+     },
+     "revenue": {
+      "type": "number",
+      "title": "Revenue"
+     },
+     "ebit": {
+      "type": "number",
+      "title": "Ebit"
+     },
+     "nopat": {
+      "type": "number",
+      "title": "Nopat"
+     },
+     "da": {
+      "type": "number",
+      "title": "Da"
+     },
+     "capex": {
+      "type": "number",
+      "title": "Capex"
+     },
+     "delta_nwc": {
+      "type": "number",
+      "title": "Delta Nwc"
+     },
+     "fcf": {
+      "type": "number",
+      "title": "Fcf"
+     },
+     "pv_fcf": {
+      "type": "number",
+      "title": "Pv Fcf"
+     }
+    },
+    "type": "object",
+    "required": [
+     "year",
+     "revenue",
+     "ebit",
+     "nopat",
+     "da",
+     "capex",
+     "delta_nwc",
+     "fcf",
+     "pv_fcf"
+    ],
+    "title": "ProjectionRow"
+   },
+   "Provenance": {
+    "properties": {
+     "field": {
+      "type": "string",
+      "title": "Field"
+     },
+     "how": {
+      "type": "string",
+      "title": "How"
+     }
+    },
+    "type": "object",
+    "required": [
+     "field",
+     "how"
+    ],
+    "title": "Provenance"
+   },
+   "RatesResponse": {
+    "properties": {
+     "risk_free": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/PriceQuote"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "10-year Treasury yield, as a decimal"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "live",
+         "saved"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source"
+     },
+     "saved_on": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Saved On"
+     }
+    },
+    "type": "object",
+    "required": [
+     "risk_free"
+    ],
+    "title": "RatesResponse"
+   },
+   "ReverseDCF": {
+    "properties": {
+     "market_price": {
+      "type": "number",
+      "title": "Market Price"
+     },
+     "model_value": {
+      "type": "number",
+      "title": "Model Value"
+     },
+     "upside": {
+      "type": "number",
+      "title": "Upside",
+      "description": "Model value per share / market price - 1"
+     },
+     "model_average_growth": {
+      "type": "number",
+      "title": "Model Average Growth"
+     },
+     "implied_growth": {
+      "$ref": "#/components/schemas/ReverseSolution"
+     },
+     "implied_discount_rate": {
+      "$ref": "#/components/schemas/ReverseSolution"
+     }
+    },
+    "type": "object",
+    "required": [
+     "market_price",
+     "model_value",
+     "upside",
+     "model_average_growth",
+     "implied_growth",
+     "implied_discount_rate"
+    ],
+    "title": "ReverseDCF"
+   },
+   "ReverseSolution": {
+    "properties": {
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reason"
+     },
+     "unique": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unique"
+     }
+    },
+    "type": "object",
+    "required": [
+     "available"
+    ],
+    "title": "ReverseSolution"
+   },
+   "SampleResponse": {
+    "properties": {
+     "csv_text": {
+      "type": "string",
+      "title": "Csv Text"
+     },
+     "amounts": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Amounts"
+     },
+     "benchmark": {
+      "type": "string",
+      "title": "Benchmark"
+     },
+     "synthetic": {
+      "type": "boolean",
+      "title": "Synthetic"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "csv_text",
+     "amounts",
+     "benchmark",
+     "synthetic",
+     "note"
+    ],
+    "title": "SampleResponse"
+   },
+   "Series": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Values"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "values"
+    ],
+    "title": "Series"
+   },
+   "TornadoOut": {
+    "properties": {
+     "param": {
+      "type": "string",
+      "title": "Param"
+     },
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "low_label": {
+      "type": "string",
+      "title": "Low Label"
+     },
+     "high_label": {
+      "type": "string",
+      "title": "High Label"
+     },
+     "low_output": {
+      "type": "number",
+      "title": "Low Output"
+     },
+     "high_output": {
+      "type": "number",
+      "title": "High Output"
+     },
+     "swing": {
+      "type": "number",
+      "title": "Swing"
+     }
+    },
+    "type": "object",
+    "required": [
+     "param",
+     "label",
+     "low_label",
+     "high_label",
+     "low_output",
+     "high_output",
+     "swing"
+    ],
+    "title": "TornadoOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   },
+   "Valuation": {
+    "properties": {
+     "discount_rate": {
+      "type": "number",
+      "title": "Discount Rate"
+     },
+     "terminal_method": {
+      "type": "string",
+      "title": "Terminal Method"
+     },
+     "terminal_value": {
+      "type": "number",
+      "title": "Terminal Value"
+     },
+     "pv_terminal_value": {
+      "type": "number",
+      "title": "Pv Terminal Value"
+     },
+     "pv_explicit": {
+      "type": "number",
+      "title": "Pv Explicit"
+     },
+     "enterprise_value": {
+      "type": "number",
+      "title": "Enterprise Value"
+     },
+     "net_debt": {
+      "type": "number",
+      "title": "Net Debt"
+     },
+     "equity_value": {
+      "type": "number",
+      "title": "Equity Value"
+     },
+     "value_per_share": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value Per Share"
+     },
+     "terminal_share": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Terminal Share"
+     },
+     "implied_exit_multiple": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Implied Exit Multiple"
+     },
+     "implied_terminal_growth": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Implied Terminal Growth"
+     }
+    },
+    "type": "object",
+    "required": [
+     "discount_rate",
+     "terminal_method",
+     "terminal_value",
+     "pv_terminal_value",
+     "pv_explicit",
+     "enterprise_value",
+     "net_debt",
+     "equity_value",
+     "value_per_share",
+     "terminal_share",
+     "implied_exit_multiple",
+     "implied_terminal_growth"
+    ],
+    "title": "Valuation"
+   },
+   "WaccRequest": {
+    "properties": {
+     "risk_free": {
+      "type": "number",
+      "maximum": 0.5,
+      "minimum": -0.05,
+      "title": "Risk Free",
+      "default": 0.04
+     },
+     "beta": {
+      "type": "number",
+      "maximum": 5.0,
+      "minimum": -3.0,
+      "title": "Beta",
+      "default": 1.0
+     },
+     "market_return": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": -0.5,
+      "title": "Market Return",
+      "default": 0.09
+     },
+     "equity_value": {
+      "type": "number",
+      "maximum": 1000000000000.0,
+      "minimum": 0.0,
+      "title": "Equity Value",
+      "default": 1500
+     },
+     "debt_value": {
+      "type": "number",
+      "maximum": 1000000000000.0,
+      "minimum": 0.0,
+      "title": "Debt Value",
+      "default": 500
+     },
+     "cost_of_debt": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Cost Of Debt",
+      "default": 0.06
+     },
+     "tax_rate": {
+      "type": "number",
+      "exclusiveMaximum": 1.0,
+      "minimum": 0.0,
+      "title": "Tax Rate",
+      "default": 0.25
+     }
+    },
+    "type": "object",
+    "title": "WaccRequest"
+   },
+   "WaccResponse": {
+    "properties": {
+     "cost_of_equity": {
+      "type": "number",
+      "title": "Cost Of Equity"
+     },
+     "wacc": {
+      "type": "number",
+      "title": "Wacc"
+     },
+     "equity_weight": {
+      "type": "number",
+      "title": "Equity Weight"
+     },
+     "debt_weight": {
+      "type": "number",
+      "title": "Debt Weight"
+     }
+    },
+    "type": "object",
+    "required": [
+     "cost_of_equity",
+     "wacc",
+     "equity_weight",
+     "debt_weight"
+    ],
+    "title": "WaccResponse"
+   },
+   "XrayRequest": {
+    "properties": {
+     "csv_text": {
+      "type": "string",
+      "maxLength": 1000000,
+      "title": "Csv Text",
+      "description": "Price history, one column per asset (see data.py)"
+     },
+     "amounts": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "number"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Amounts",
+      "description": "Dollars or weights per asset; normalized. Equal if omitted"
+     },
+     "benchmark": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Benchmark",
+      "description": "Name of the price column to use as the market"
+     },
+     "periods_per_year": {
+      "type": "integer",
+      "title": "Periods Per Year",
+      "description": "12 monthly, 52 weekly, 252 daily, 4 quarterly, 1 yearly",
+      "default": 12
+     },
+     "risk_free_annual": {
+      "type": "number",
+      "maximum": 0.5,
+      "minimum": -0.05,
+      "title": "Risk Free Annual",
+      "default": 0.03
+     },
+     "n_frontier": {
+      "type": "integer",
+      "maximum": 20000.0,
+      "minimum": 100.0,
+      "title": "N Frontier",
+      "default": 3000
+     },
+     "seed": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "exclusiveMaximum": 2147483648.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Seed"
+     }
+    },
+    "type": "object",
+    "required": [
+     "csv_text"
+    ],
+    "title": "XrayRequest"
+   },
+   "XrayResponse": {
+    "properties": {
+     "seed": {
+      "type": "integer",
+      "title": "Seed"
+     },
+     "n_periods": {
+      "type": "integer",
+      "title": "N Periods"
+     },
+     "periods_per_year": {
+      "type": "integer",
+      "title": "Periods Per Year"
+     },
+     "labels": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Labels",
+      "description": "One label per point in the growth and drawdown series"
+     },
+     "assets": {
+      "items": {
+       "$ref": "#/components/schemas/AssetRow"
+      },
+      "type": "array",
+      "title": "Assets"
+     },
+     "correlation": {
+      "$ref": "#/components/schemas/Correlation"
+     },
+     "metrics": {
+      "$ref": "#/components/schemas/Metrics"
+     },
+     "diversification_benefit": {
+      "type": "number",
+      "title": "Diversification Benefit",
+      "description": "Weighted-average holding risk minus portfolio risk, yearly"
+     },
+     "diversified": {
+      "type": "boolean",
+      "title": "Diversified"
+     },
+     "growth": {
+      "items": {
+       "$ref": "#/components/schemas/Series"
+      },
+      "type": "array",
+      "title": "Growth",
+      "description": "Growth of 100: the portfolio, each asset, and the benchmark if given"
+     },
+     "drawdown": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Drawdown"
+     },
+     "frontier": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/FrontierOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings"
+     }
+    },
+    "type": "object",
+    "required": [
+     "seed",
+     "n_periods",
+     "periods_per_year",
+     "labels",
+     "assets",
+     "correlation",
+     "metrics",
+     "diversification_benefit",
+     "diversified",
+     "growth",
+     "drawdown",
+     "frontier",
+     "warnings"
+    ],
+    "title": "XrayResponse"
+   }
+  }
+ }
+}

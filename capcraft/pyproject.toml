@@ -1,0 +1,17 @@
+[project]
+name = "capcraft"
+version = "0.1.0"
+description = "Modular financial analysis: time value of money, risk and return, portfolio analysis, Monte Carlo, DCF."
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.27"]
+dev = ["pytest>=7", "httpx>=0.25", "fastapi>=0.110", "uvicorn>=0.27"]
+
+[tool.setuptools]
+packages = ["capcraft", "capcraft_api"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
