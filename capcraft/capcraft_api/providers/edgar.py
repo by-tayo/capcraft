@@ -29,7 +29,8 @@ EBIT = ["OperatingIncomeLoss"]
 PRETAX = ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
           "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"]
 TAX = ["IncomeTaxExpenseBenefit"]
-DA = ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "DepreciationAmortizationAndAccretionNet"]
+DA = ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "DepreciationAmortizationAndAccretionNet",
+      "DepreciationAmortizationAndOther", "Depreciation"]
 CAPEX = ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets"]
 CUR_ASSETS = ["AssetsCurrent"]
 CUR_LIAB = ["LiabilitiesCurrent"]
@@ -158,7 +159,10 @@ def derive(facts: Dict) -> Dict:
     da = _avg_ratio(annual(facts, DA), rev)
     capex = _avg_ratio(annual(facts, CAPEX), rev)
     if da is None:
-        notes.append("Depreciation was not found; set to 0%. Check it.")
+        near = sorted(k for k in facts.get("facts", {}).get("us-gaap", {})
+                      if "Depreciation" in k or "Amortization" in k)[:6]
+        hint = f" Tags in this filing that look related: {', '.join(near)}." if near else ""
+        notes.append("Depreciation was not found; set to 0%. Check it." + hint)
     if capex is None:
         notes.append("Capital spending was not found; set to 0%. Check it.")
     prov.append({"field": "Depreciation and capital spending", "how": "Average share of revenue over up to 3 years, from the cash flow statement."})
