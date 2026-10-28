@@ -156,7 +156,7 @@ function DcfResults({ d, f, meta, name }: { d: DCFResponse; f: typeof DEFAULTS; 
       <div className="stats">
         {per && <Stat k="Value per share" v={usd(v.value_per_share!)} n={price != null ? `Price ${usd(price)}` : 'Add a price to compare'} />}
         <Stat k="Enterprise value" v={mm(v.enterprise_value)} n="Value of the whole business" />
-        <Stat k="Equity value" v={mm(v.equity_value)} n={`After ${mm(v.net_debt)} net debt`} />
+        <Stat k="Equity value" v={mm(v.equity_value)} n={v.net_debt < 0 ? `Plus ${mm(-v.net_debt)} net cash` : `After ${mm(v.net_debt)} net debt`} />
         <Stat k="After-forecast share" v={pct(termShare, 0)} n="Of enterprise value" />
         {v.implied_exit_multiple != null && <Stat k="Implied exit multiple" v={`${num(v.implied_exit_multiple, 1)}x`} n="What the growth-forever case implies" />}
         {v.implied_terminal_growth != null && <Stat k="Implied growth forever" v={pct(v.implied_terminal_growth)} n="What the exit multiple implies" />}
