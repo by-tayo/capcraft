@@ -428,7 +428,7 @@ def company(ticker: str) -> Dict:
         price = prices.latest_price(sym)
     except http.DataError as e:
         price_failed = True
-        warnings.append(f"Share price unavailable: {e}")
+        warnings.append(f"Share price unavailable. {e} Type the price by hand.")
     if price is None and prices.configured() and not price_failed:
         warnings.append("No share price came back (the free daily limit may be used up). Type the price by hand.")
     return {"ticker": sym, "name": name, "cik": cik, "fiscal_year_end": derived["fiscal_year_end"],
