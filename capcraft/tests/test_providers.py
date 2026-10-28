@@ -157,7 +157,10 @@ def test_price_parses_alpha_vantage_shape_and_survives_rate_limit(monkeypatch):
     monkeypatch.setenv("ALPHAVANTAGE_API_KEY", "k")
     monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Global Quote": {"05. price": "123.4500", "07. latest trading day": "2024-02-02"}})
     assert prices.latest_price("ZZZ") == {"value": 123.45, "as_of": "2024-02-02"}
-    monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Information": "rate limit"})
+    monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Information": "rate limit reached"})
+    with pytest.raises(http.Unavailable, match="rate limit reached"):     # the provider's reason is passed on
+        prices.latest_price("ZZZ")
+    monkeypatch.setattr(http, "get_json", lambda *a, **k: {"Global Quote": {}})   # unknown symbol
     assert prices.latest_price("ZZZ") is None
     monkeypatch.delenv("ALPHAVANTAGE_API_KEY")
     assert prices.latest_price("ZZZ") is None and not prices.configured()
@@ -238,3 +241,24 @@ def test_company_endpoint_error_codes(monkeypatch):
     fake_network(monkeypatch, facts=bank)
     r = c.get("/api/company/FIX")
     assert r.status_code == 502 and "banks and insurers" in r.json()["detail"]
+
+
+# Depreciation tags differ between companies
+
+
+def test_depreciation_found_under_an_alternative_tag():
+    facts = make_facts()
+    gaap = facts["facts"]["us-gaap"]
+    gaap["DepreciationAmortizationAndOther"] = gaap.pop("DepreciationDepletionAndAmortization")
+    out = edgar.derive(facts)
+    assert abs(out["assumptions"]["da_pct"] - 0.04) < 1e-9
+    assert not any("Depreciation was not found" in n for n in out["warnings"])
+
+
+def test_missing_depreciation_names_related_tags_so_the_right_one_can_be_added():
+    facts = make_facts()
+    gaap = facts["facts"]["us-gaap"]
+    gaap["SomeOddAmortizationTag"] = gaap.pop("DepreciationDepletionAndAmortization")
+    out = edgar.derive(facts)
+    assert out["assumptions"]["da_pct"] == 0.0
+    assert any("SomeOddAmortizationTag" in n for n in out["warnings"])
