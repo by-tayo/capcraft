@@ -262,3 +262,12 @@ def test_missing_depreciation_names_related_tags_so_the_right_one_can_be_added()
     out = edgar.derive(facts)
     assert out["assumptions"]["da_pct"] == 0.0
     assert any("SomeOddAmortizationTag" in n for n in out["warnings"])
+
+
+def test_provider_message_never_leaks_the_api_key(monkeypatch):
+    monkeypatch.setenv("ALPHAVANTAGE_API_KEY", "SECRETKEY123")
+    monkeypatch.setattr(http, "get_json", lambda *a, **k: {
+        "Information": "We have detected your API key as SECRETKEY123 and our standard API rate limit is 25 requests per day."})
+    with pytest.raises(http.Unavailable) as err:
+        prices.latest_price("ZZZ")
+    assert "SECRETKEY123" not in str(err.value) and "rate limit" in str(err.value)
