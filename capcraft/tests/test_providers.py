@@ -271,3 +271,24 @@ def test_provider_message_never_leaks_the_api_key(monkeypatch):
     with pytest.raises(http.Unavailable) as err:
         prices.latest_price("ZZZ")
     assert "SECRETKEY123" not in str(err.value) and "premium" not in str(err.value).lower()
+
+
+def test_busy_source_is_retried_then_succeeds_or_gives_a_plain_message(monkeypatch):
+    import io
+    http.clear_cache()
+    monkeypatch.setattr(http.time, "sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def flaky(req, timeout=0):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            raise urllib.error.HTTPError("https://x/", 429, "busy", {}, None)
+        return io.BytesIO(b'{"ok": true}')
+    monkeypatch.setattr("urllib.request.urlopen", flaky)
+    assert http.get_json("https://x/") == {"ok": True} and calls["n"] == 3
+
+    def always_busy(req, timeout=0):
+        raise urllib.error.HTTPError("https://x/", 429, "busy", {}, None)
+    monkeypatch.setattr("urllib.request.urlopen", always_busy)
+    with pytest.raises(http.Unavailable, match="busy right now"):
+        http.get_json("https://x/")
