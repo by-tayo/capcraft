@@ -25,6 +25,10 @@ class NotConfigured(DataError):
     """A key or contact string this feature needs has not been set."""
 
 
+RETRIES = 2                      # extra tries when a source says "busy"
+RETRY_CODES = (429, 502, 503, 504)
+PAUSE = 1.5                      # seconds, multiplied by the try number
+
 _cache: Dict[str, Tuple[float, object]] = {}
 
 
@@ -41,15 +45,22 @@ def get_json(url: str, headers: Optional[Dict[str, str]] = None, ttl: float = 0,
     if ttl and hit and now - hit[0] < ttl:
         return hit[1]
     req = urllib.request.Request(url, headers=headers or {})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            data = json.loads(r.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        raise Unavailable(f"The data source answered with an error ({e.code}).") from None
-    except (urllib.error.URLError, TimeoutError, OSError):
-        raise Unavailable("Could not reach the data source. Try again in a moment.") from None
-    except ValueError:
-        raise DataError("The data source sent something unreadable.") from None
+    for attempt in range(RETRIES + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as e:
+            if e.code in RETRY_CODES and attempt < RETRIES:
+                time.sleep(PAUSE * (attempt + 1))   # busy for a moment: wait and ask again
+                continue
+            if e.code == 429:
+                raise Unavailable("The data source is busy right now. Wait a minute and try again.") from None
+            raise Unavailable(f"The data source answered with an error ({e.code}).") from None
+        except (urllib.error.URLError, TimeoutError, OSError):
+            raise Unavailable("Could not reach the data source. Try again in a moment.") from None
+        except ValueError:
+            raise DataError("The data source sent something unreadable.") from None
     if ttl:
         _cache[url] = (now, data)
     return data
