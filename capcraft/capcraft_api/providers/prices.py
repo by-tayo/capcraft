@@ -23,7 +23,8 @@ def latest_price(ticker: str) -> Optional[Dict]:
     data = http.get_json(url, ttl=TTL)
     for field in ("Error Message", "Information", "Note"):
         if data.get(field):     # the provider explains itself: limit reached, bad key, premium-only
-            raise http.Unavailable(str(data[field])[:200])
+            # providers sometimes echo the key back in their message; never pass it on
+            raise http.Unavailable(str(data[field]).replace(key, "[your key]")[:300])
     quote = data.get("Global Quote") or {}
     try:
         return {"value": float(quote["05. price"]), "as_of": quote.get("07. latest trading day", "")}
