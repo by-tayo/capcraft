@@ -21,6 +21,9 @@ def latest_price(ticker: str) -> Optional[Dict]:
         return None
     url = URL + urllib.parse.urlencode({"function": "GLOBAL_QUOTE", "symbol": ticker, "apikey": key})
     data = http.get_json(url, ttl=TTL)
+    for field in ("Error Message", "Information", "Note"):
+        if data.get(field):     # the provider explains itself: limit reached, bad key, premium-only
+            raise http.Unavailable(str(data[field])[:200])
     quote = data.get("Global Quote") or {}
     try:
         return {"value": float(quote["05. price"]), "as_of": quote.get("07. latest trading day", "")}
