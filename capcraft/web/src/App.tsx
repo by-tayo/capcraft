@@ -7,7 +7,7 @@ import { XrayTab } from './tabs/XrayTab'
 const TABS = [
   { id: 'plan', label: 'Plan vs. reality' },
   { id: 'xray', label: 'Portfolio X-ray' },
-  { id: 'dcf', label: 'Priced for perfection?' },
+  { id: 'dcf', label: 'Valuation' },
 ] as const
 type TabId = (typeof TABS)[number]['id']
 
