@@ -61,7 +61,12 @@ The app reads real environment variables; it does not load a `.env` file by itse
 
 Loaded numbers are history, not forecasts: growth is the company's own past growth, margins are 3-year averages,
 and every number lists how it was derived. Banks and insurers do not fit this model and are rejected with a message.
-Everything loaded can be edited. If the share price is unavailable (the free service is rate limited), type it by hand.
+Everything loaded can be edited.
+
+**Share price on the live site.** The free price service allows only 25 requests a day per key, and on the free host
+it often answers "limit reached" even for a new key, most likely because the host's server address is shared with other
+apps. When that happens the app says so and you type the price by hand; every other number still loads from the
+company's SEC filings.
 
 To check that your keys work, run `python scripts/check_live.py MSFT` once from the `capcraft/` folder and compare the
 printed numbers with the company's latest 10-K.
