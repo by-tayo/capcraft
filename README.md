@@ -21,21 +21,27 @@ company by ticker, using numbers derived from its SEC filings (see Live data bel
 
 ## Layout
 
+The project lives in the `capcraft/` folder of this repo. Everything below is inside it.
+
     capcraft/       tested Python library (numpy only): tvm, risk_return, risk_metrics, portfolio,
                     monte_carlo, dcf, sensitivity, data, sample_data
-    capcraft_api/   FastAPI layer (schemas, service, main); limits, readable 422 errors, NaN-free JSON
+    capcraft_api/   FastAPI layer (schemas, service, providers, main); limits, readable 422 errors, NaN-free JSON
     web/            React + TypeScript (Vite); API types generated from the API's OpenAPI file
     tests/          library and API tests (300+)
     examples/       worked examples, run as scripts
+    scripts/        check_live.py (try your keys), make_snapshot.py (optional saved copies of real data)
 
 ## Run it
+
+    git clone https://github.com/by-tayo/capcraft
+    cd capcraft/capcraft
 
     pip install -e ".[dev]"
     pytest                                   # library and API tests
     uvicorn capcraft_api.main:app --port 8000
 
     cd web
-    npm install
+    npm install --legacy-peer-deps
     npm run dev                              # http://localhost:5173, proxies /api to port 8000
 
 When the API changes, regenerate the types: export `app.openapi()` to `web/openapi.json`, then
@@ -43,8 +49,9 @@ When the API changes, regenerate the types: export `app.openapi()` to `web/opena
 
 ## Live data (optional)
 
-Set any of these environment variables (see `.env.example`). Each feature switches on only when its setting exists,
-and CapCraft works fully without any of them. Keys stay on the server and are never sent to the browser.
+Set any of these environment variables (see `capcraft/.env.example`). Each feature switches on only when its setting
+exists, and CapCraft works fully without any of them. Keys stay on the server and are never sent to the browser.
+The app reads real environment variables; it does not load a `.env` file by itself.
 
 | Setting | Turns on | Source |
 |---|---|---|
@@ -56,21 +63,24 @@ Loaded numbers are history, not forecasts: growth is the company's own past grow
 and every number lists how it was derived. Banks and insurers do not fit this model and are rejected with a message.
 Everything loaded can be edited. If the share price is unavailable (the free service is rate limited), type it by hand.
 
-To check that your keys work, run `python scripts/check_live.py MSFT` once and compare the printed numbers with the
-company's latest 10-K.
+To check that your keys work, run `python scripts/check_live.py MSFT` once from the `capcraft/` folder and compare the
+printed numbers with the company's latest 10-K.
 
 ## Deploy
 
-One container serves both the API and the built frontend:
+The live site runs on [Render](https://render.com) (free plan). Render builds the `capcraft/Dockerfile`, which
+compiles the React app and serves it together with the API from one container. It redeploys automatically on every
+push to `main`.
+
+Render settings: Root Directory `capcraft`, runtime Docker, health check path `/api/health`
+(`capcraft/render.yaml` lists them). The API keys are set under Environment in the Render dashboard, never in this repo.
+
+To run the same container on your own machine, from the `capcraft/` folder:
 
     docker build -t capcraft .
     docker run -p 8000:8000 capcraft          # http://localhost:8000
 
-On Render: New > Blueprint, pick this repo (`render.yaml` is included). It runs with no keys; add
-`CAPCRAFT_SEC_USER_AGENT`, `ALPHAVANTAGE_API_KEY` and `FRED_API_KEY` in the dashboard only if you want live lookups.
-Any host that runs a Dockerfile works (Fly.io, Railway). Set `PORT` if the host requires it.
-Set `CAPCRAFT_CORS` only if the frontend is served from a different address.
-CI (`.github/workflows/ci.yml`) runs the tests, lint and a build.
+CI (`.github/workflows/ci.yml`) runs the Python tests, the web lint and the web build on every push.
 
 ## Assumptions and limits
 
@@ -85,6 +95,7 @@ In short:
 
 Hand-worked numbers and exact identities, statistical checks within standard errors, input-validation cases,
 API results compared with direct library calls, and mutation checks (plant a bug, confirm a test fails).
+The Python side has 300+ tests. The React side is checked by lint and a type-checked build, not by unit tests.
 
 ## License
 
