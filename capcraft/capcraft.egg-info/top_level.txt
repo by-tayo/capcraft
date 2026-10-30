@@ -1,2 +1,0 @@
-capcraft
-capcraft_api
