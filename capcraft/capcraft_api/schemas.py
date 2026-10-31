@@ -1,13 +1,3 @@
-"""Request and response models for the CapCraft API.
-
-Every endpoint declares a response model, so the API's OpenAPI description
-is exact and the frontend's TypeScript types can be generated from it.
-
-Conventions (the same as the library): rates, returns, weights and
-volatilities are DECIMALS, 5% -> 0.05. Dollar amounts are plain numbers.
-A value that cannot be computed (an undefined ratio, an impossible grid
-cell) is null, never NaN.
-"""
 from typing import Dict, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field, field_validator
